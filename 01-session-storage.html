@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Session Storage</title>
+</head>
+<body>
+
+    <main id="app">
+        <section>
+            <h3>Session</h3>
+            <pre>
+                <code id="sessionOutput"></code>
+            </pre>
+        </section>
+        <section>
+            <h3>Login</h3>
+            <input type="text" id="usernameInput"/>
+            <button onclick="onLogin()">Login</button>
+            <button onclick="onLogout()">Logout</button>
+        </section>
+    </main>
+
+    <script type="text/javascript">
+
+        const SESSION_KEY = 'session';
+        const usernameInput = document.getElementById('usernameInput');
+        const sessionOutput = document.getElementById('sessionOutput');
+
+
+        //-----------------------------------------------------------------------------------------
+        //  Session display
+        //-----------------------------------------------------------------------------------------
+        window.onload = function(){
+debugger;
+            const session = loadSession();
+            updateSessionDisplay(session);
+        };
+
+        function updateSessionDisplay(session){
+            sessionOutput.innerHTML = JSON.stringify(session, null, 4);
+        }
+
+
+        //-----------------------------------------------------------------------------------------
+        //  Login/logout support
+        //-----------------------------------------------------------------------------------------
+        function onLogin(e){
+            debugger;
+            const session = createUserSession();
+            updateSessionDisplay(session);
+        }
+
+        function onLogout(e){
+            debugger;
+            destroySession();
+            const session = loadSession();
+            updateSessionDisplay(session);
+        }
+
+
+        //-----------------------------------------------------------------------------------------
+        //  Session support
+        //-----------------------------------------------------------------------------------------
+        function createUserSession(){
+            const session = {
+                id: uuid(),
+                username: usernameInput.value,
+                authenticated: true,
+                organization: 'Foo Bar Inc.',
+                roles: [ 'manage-org', 'write-post', 'read-post' ]
+            };
+            writeSession(session);
+            return session;
+        }
+
+        function createAnonymousSession(){
+            const session = {
+                id: uuid(),
+                username: 'Guest',
+                authenticated: false,
+                organization: null,
+                roles: [ 'read-post' ]
+            };
+            writeSession(session);
+            return session;
+        }
+
+        function getStorageBackend(){
+            // return window.sessionStorage;
+            return window.localStorage;
+        }
+
+        function writeSession(session){
+            const serializedSession = JSON.stringify(session);
+            const storage = getStorageBackend();
+            storage.setItem(SESSION_KEY, serializedSession);
+        }
+
+        function readSession(){
+            const storage = getStorageBackend();
+            const serializedSession = storage.getItem(SESSION_KEY);
+            if(serializedSession){
+                return JSON.parse(serializedSession);
+            }else{
+                return null;
+            }
+        }
+
+        function destroySession(){
+            const storage = getStorageBackend();
+            storage.clear();
+        }
+
+        function loadSession(){
+            const session = readSession();
+            if(session){
+                return session;
+            }else{
+                const anonymousSession = createAnonymousSession();
+                writeSession(anonymousSession);
+                return anonymousSession;
+            }
+        }
+
+        function uuid(){
+            // a bad uuid implementation
+            const uuid = 'uuid-' + Math.floor(Math.random() * 50000);
+            return uuid;
+        }
+
+
+    </script>
+
+</body>
+</html>
