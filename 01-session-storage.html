@@ -30,12 +30,10 @@
         const usernameInput = document.getElementById('usernameInput');
         const sessionOutput = document.getElementById('sessionOutput');
 
-
         //-----------------------------------------------------------------------------------------
         //  Session display
         //-----------------------------------------------------------------------------------------
         window.onload = function(){
-debugger;
             const session = loadSession();
             updateSessionDisplay(session);
         };
@@ -44,26 +42,22 @@ debugger;
             sessionOutput.innerHTML = JSON.stringify(session, null, 4);
         }
 
-
         //-----------------------------------------------------------------------------------------
         //  Login/logout support
         //-----------------------------------------------------------------------------------------
         function onLogin(e){
-            debugger;
             const session = createUserSession();
             updateSessionDisplay(session);
         }
 
         function onLogout(e){
-            debugger;
             destroySession();
             const session = loadSession();
             updateSessionDisplay(session);
         }
 
-
         //-----------------------------------------------------------------------------------------
-        //  Session support
+        //  Session model
         //-----------------------------------------------------------------------------------------
         function createUserSession(){
             const session = {
@@ -89,6 +83,9 @@ debugger;
             return session;
         }
 
+        //-----------------------------------------------------------------------------------------
+        //  Session storage
+        //-----------------------------------------------------------------------------------------
         function getStorageBackend(){
             // return window.sessionStorage;
             return window.localStorage;

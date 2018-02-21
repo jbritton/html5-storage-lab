@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IndexedDB - Dexie Example</title>
+    <script src="https://unpkg.com/dexie@latest/dist/dexie.js"></script>
+    <script type="text/javascript">
+
+
+        window.onload = () => {
+	        var db = new Dexie('employee_db');
+
+	        db.version(1).stores({
+                employees: 'id,name,age,position,salary',
+                departments: 'id,name'
+            });
+
+	        db.employees.put({id: 1, name: 'John', age: 25, position: 'accountant', salary: 45000 });
+	        db.employees.put({id: 2, name: 'Ryan', age: 45, position: 'tech manager', salary: 95000 });
+	        db.employees.put({id: 3, name: 'Stacey', age: 33, position: 'account manager', salary: 88000 });
+
+
+	        window.db = db;
+//	        db.version(1).stores({
+//		        friends: 'name,shoeSize'
+//	        });
+//
+//
+//	        db.friends.put({name: "Nicolas", shoeSize: 8}).then (function(){
+//		        //
+//		        // Then when data is stored, read from it
+//		        //
+//		        return db.friends.get('Nicolas');
+//	        }).then(function (friend) {
+//		        //
+//		        // Display the result
+//		        //
+//		        alert ("Nicolas has shoe size " + friend.shoeSize);
+//	        }).catch(function(error) {
+//		        //
+//		        // Finally don't forget to catch any error
+//		        // that could have happened anywhere in the
+//		        // code blocks above.
+//		        //
+//		        alert ("Ooops: " + error);
+//	        });
+        };
+    </script>
+</head>
+<body>
+    <h1>Dexie.js</h1>
+</body>
+</html>

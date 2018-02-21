@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Local Storage</title>
+    <script type="text/javascript">
+
+        function printSessionStorage(){
+        	console.log('Printing session storage: ');
+	        for(let key in sessionStorage){
+		        const value = sessionStorage[key];
+		        console.log(`session: ${key} => ${value}`);
+	        }
+        }
+
+        function printLocalStorage(){
+	        console.log('Printing local storage: ');
+	        for(let key in localStorage){
+		        const value = localStorage[key];
+		        console.log(`local: ${key} => ${value}`);
+	        }
+        }
+
+        window.onload = () => {
+            localStorage.foo = 'bar';
+            localStorage.colors = ['orange', 'blue', 'green'];
+
+            sessionStorage.username = 'jdoe@example.com';
+            sessionStorage.roles = ['admin', 'read-posts', 'write-posts'];
+            sessionStorage.prefs = { chat: false, theme: 'basic', commands: { copy: 'CTRL+C'}};
+
+
+            printSessionStorage();
+            printLocalStorage();
+        };
+    </script>
+</head>
+<body>
+    <h1>Local Storage Example</h1>
+</body>
+</html>
